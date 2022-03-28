@@ -4,6 +4,7 @@ namespace Tests\Feature\Tasks;
 
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 use function route;
 
@@ -28,7 +29,7 @@ class CreateNewTaskTest extends TestCase
         $task = Task::factory()->make()->toArray();
         $response = $this->post($this->getCreateTaskRoute(), $task);
 
-        $response->assertStatus(302);
+        $response->assertStatus(Response::HTTP_FOUND);
         $this->assertDatabaseHas('tasks', $task);
         $response->assertRedirect(route('task.index'));
     }

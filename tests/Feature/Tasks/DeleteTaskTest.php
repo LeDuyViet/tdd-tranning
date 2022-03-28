@@ -17,12 +17,14 @@ class DeleteTaskTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
         $task = Task::factory()->create();
+        $taskCountBeforeDelete = Task::count();
         $response = $this->delete(route('task.delete', $task->id));
         $response->assertStatus(Response::HTTP_FOUND);
         $this->assertDatabaseMissing('tasks', [
             'name' => $task->name,
             'content' => $task->content
         ]);
+        $this->assertDatabaseCount('tasks', $taskCountBeforeDelete-1);
         $response->assertRedirect(route('task.index'));
     }
 

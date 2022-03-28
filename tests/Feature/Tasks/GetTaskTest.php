@@ -40,5 +40,6 @@ class GetTaskTest extends TestCase
         $taskId = -1;
         $response = $this->get(Route('task.show', $taskId));
         $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect('/login');
     }
 }
